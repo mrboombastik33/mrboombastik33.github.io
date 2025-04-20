@@ -1,0 +1,183 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.logo img {
+    height: 24px;
+    margin-right: 8px;
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: black;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn {
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo img {
+        width: 40px; 
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .actions {
+        margin-top: 10px;
+    }
+
+    .container {
+        height: 60vh; 
+        text-align: center;
+    }
+
+    .background_clip {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .content h1 {
+        font-size: 1.8rem; 
+    }
+
+    .content a {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+
+
+.add-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.add-btn {
+    margin-top: 10px;
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.upload-btn {
+    margin-top: 10px;
+    background-color: #e3242b;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.image-gallery img {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+
+.LS_photoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap : 10px;
+    margin-top: 20px; 
+}
+
+.LS_photoes img {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 10px;
+
+}
+
