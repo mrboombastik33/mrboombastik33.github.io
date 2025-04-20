@@ -9,9 +9,9 @@ function scrollToDiv() {
     }
 }
 
+
+//Переміщення між вікнами
 window.onload = function () {
-
-
     if (window.location.search.includes("scroll=true")) {
         const element = document.getElementById('main_info');
         if (element) {
@@ -46,6 +46,7 @@ window.onload = function () {
     document.getElementById("still")?.addEventListener("click", function () {
         window.location.href = "lesson_pages/still_photo/still_photo.html";
     });
+    
 
 
     document.getElementById("gallery")?.addEventListener("click", function () {
@@ -59,67 +60,80 @@ window.onload = function () {
 };
 
 
-document.getElementById('imageUpload').addEventListener('change', function(event) {
-    const files = event.target.files;  
-    const imageGallery = document.getElementById('imageGallery');  
+// Виводимо дані з localStorage на сторінку 
+window.addEventListener('DOMContentLoaded', () => {
+    showLocalStorage();
+  });
+  
 
+
+// Додавання фото на екран без збереження в localStorage
+document.getElementById('addImageInput').addEventListener('change', function (event) {
+    const files = event.target.files;
+    const imageGallery = document.getElementById('imageGallery');
+  
     if (files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-
-                const imgElement = document.createElement('img');
-                imgElement.src = e.target.result;
-                imgElement.alt = `Image ${i + 1}`;
-                imgElement.style.maxWidth = "200px";  
-                imgElement.style.height = "auto";  
-                imgElement.style.marginBottom = "10px";  
-
-                imageGallery.appendChild(imgElement);
-            };
-
-            reader.readAsDataURL(file);  
-        }
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+  
+        reader.onload = function (e) {
+          const imgElement = document.createElement('img');
+          imgElement.src = e.target.result;
+          imgElement.alt = `Image ${i + 1}`;
+          imgElement.style.maxWidth = "200px";
+          imgElement.style.margin = "5px";
+          imageGallery.appendChild(imgElement);
+        };
+  
+        reader.readAsDataURL(file);
+      }
     }
-});
+  });
+  
+  
+  document.getElementById('uploadBtn').addEventListener('click', function () {
+    const imageGallery = document.getElementById('imageGallery');
+    const galleryImages = imageGallery.getElementsByTagName('img');
+  
+    if (galleryImages.length === 0) {
+      alert('Немає зображень для завантаження!');
+      return;
+    }
+  
+    let storedImages = JSON.parse(localStorage.getItem('images')) || [];
+  
+    // Переносимо кожне зображення в localStorage
+    while (galleryImages.length > 0) {
+      const img = galleryImages[0];
+      storedImages.push(img.src);
+      img.remove();
+    }
+  
+    // Оновлюємо localStorage
+    localStorage.setItem('images', JSON.stringify(storedImages));
+  
+    // Показуємо оновлений localStorage
+    showLocalStorage();
+  });
 
 
-
-// function markCourseVisited(course) {
-//     let visitedCourses = JSON.parse(localStorage.getItem("visitedCourses")) || [];
-//     if (!visitedCourses.includes(course)) {
-//         visitedCourses.push(course);
-//         localStorage.setItem("visitedCourses", JSON.stringify(visitedCourses));
-//     }
-// }
-
-
-// function checkCourseProgress() {
-//     let visitedCourses = JSON.parse(localStorage.getItem("visitedCourses")) || [];
-
-//     if (visitedCourses.length > 0) {
-//         showCompletionMessage();
-//     }
-// }
+  function showLocalStorage() {
+    const lsPhotoes = document.getElementById('ls_photoes');
+    lsPhotoes.innerHTML = '';
+  
+    const storedImages = JSON.parse(localStorage.getItem('images')) || [];
+  
+    storedImages.forEach((url, index) => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = `Image ${index + 1}`;
+      img.style.maxWidth = "200px";
+      img.style.margin = "5px";
+      lsPhotoes.appendChild(img);
+    });
+}
 
 
-// function showCompletionMessage() {
-//     if (!document.getElementById("completionMessage")) {
-//         const completionDiv = document.createElement("div");
-//         completionDiv.id = "completionMessage";
-//         completionDiv.innerText = "Congratulations! You have started your learning journey.";
-//         completionDiv.style.padding = "20px";
-//         completionDiv.style.backgroundColor = "#4CAF50";
-//         completionDiv.style.color = "white";
-//         completionDiv.style.textAlign = "center";
-//         completionDiv.style.marginTop = "20px";
-//         completionDiv.style.fontSize = "18px";
-//         completionDiv.style.borderRadius = "10px";
-
-//         document.body.appendChild(completionDiv);
-//     }
-// }
 
 
