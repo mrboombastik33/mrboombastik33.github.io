@@ -99,7 +99,13 @@ document.getElementById('uploadBtn').addEventListener('click', function () {
     const init_size = galleryImages.length;
     while (galleryImages.length > 0) {
         const img = galleryImages[0];
-        storedImages.push({ src: img.src, type: imgType });
+        storedImages.push({
+            src: img.src,
+            type: imgType,
+            width: img.naturalWidth,
+            height: img.naturalHeight
+          });
+          
         img.remove();
     }
 
@@ -157,18 +163,16 @@ function showLocalStorage() {
     
         groupedImages[type].forEach(src => {
             const imgWrapper = document.createElement('div');
-            imgWrapper.className = 'relative group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300';
+            imgWrapper.className = 'inline-flex justify-center items-center transform scale-75 origin-top rounded-xl shadow-lg hover:shadow-2xl transition-transform duration-300';
     
             const img = document.createElement('img');
             img.src = src;
             img.alt = type;
-            img.className = 'w-64 h-64 object-cover transform group-hover:scale-105 transition-transform duration-300';
+            img.className = 'h-auto w-auto max-w-none rounded-lg shadow-md';
     
             imgWrapper.appendChild(img);
             typeContainer.appendChild(imgWrapper);
         });
-    
-    
         typeBlock.appendChild(typeContainer);
         lsPhotoes.appendChild(typeBlock);
     }
