@@ -35,9 +35,9 @@
         <button class="add-btn" onclick="document.getElementById('addImageInput').click();" >Додати зображення</button>
         
         <select id="imageType" class = "select-style">
-            <option value="portrait">Портрет</option>
-            <option value="landscape">Пейзаж</option>
-            <option value="macro">Макро</option>
+            <option value="Портрет">Портрет</option>
+            <option value="Пейзаж">Пейзаж</option>
+            <option value="Макро">Макро</option>
           </select>      
 
     </div>
@@ -47,19 +47,29 @@
     <div class="upload-container">
         <button class="upload-btn" id="uploadBtn">Завантажити зображення</button>
       </div>
+
+
+      <div class="flex justify-center mt-6 ">
+        <button  class="px-6 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition duration-300" onclick = showLocalStorage();>
+          Відобразити фотографії
+        </button>
+      </div>
       
 
     <div class = "flex justify-center m-4">
         <button 
-        class = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-center"
+        class = "rounded-s-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-center"
         id = "delete-photos" > 
         Видалити фотографії </button>
     </div>
 
-    <div id="typeDisplayContainer" class = "display-type"></div>
 
-    <div id="ls_photoes" class="LS_photoes"></div>
+    <div id="uploadMsg" class="flex justify-center mt-6"></div>
 
+    <div id="filtered_photos" class="flex flex-wrap justify-center gap-4 mt-6"></div>
+
+
+ 
 
     <script src = "scripts.js" defer ></script>
     <script src="https://cdn.tailwindcss.com"></script>

@@ -166,7 +166,7 @@ body {
 }
 
 
-.LS_photoes {
+.Filtered_photos {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
