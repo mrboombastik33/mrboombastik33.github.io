@@ -62,7 +62,7 @@ window.onload = function () {
 
 // Виводимо дані з localStorage на сторінку 
 window.addEventListener('DOMContentLoaded', () => {
-    showLocalStorage();
+    //showLocalStorage();
   });
   
 
@@ -87,52 +87,92 @@ document.getElementById('addImageInput').addEventListener('change', function (ev
         };
   
         reader.readAsDataURL(file);
-      }
     }
-  });
+}
+});
   
   
-  document.getElementById('uploadBtn').addEventListener('click', function () {
+document.getElementById('uploadBtn').addEventListener('click', function () {
     const imageGallery = document.getElementById('imageGallery');
     const galleryImages = imageGallery.getElementsByTagName('img');
-  
+    const imgType = document.getElementById('imageType').value;
+
     if (galleryImages.length === 0) {
-      alert('Немає зображень для завантаження!');
-      return;
+        alert('Немає зображень для завантаження!');
+        return;
     }
-  
+
     let storedImages = JSON.parse(localStorage.getItem('images')) || [];
-  
+
     // Переносимо кожне зображення в localStorage
+
+    const init_size = galleryImages.length
     while (galleryImages.length > 0) {
-      const img = galleryImages[0];
-      storedImages.push(img.src);
-      img.remove();
+        const img = galleryImages[0];
+        storedImages.push({ src: img.src, type: imgType });
+        img.remove();
     }
-  
+
     // Оновлюємо localStorage
     localStorage.setItem('images', JSON.stringify(storedImages));
-  
-    // Показуємо оновлений localStorage
+
+
+    // Create and display the type label after uploading the image
+    const typeLabel = document.createElement('span');
+    typeLabel.textContent = init_size > 1 
+    ? `Тип доданих вами фотографій: ${imgType}` 
+    : `Тип доданої вами фотографії: ${imgType}`;  
+    console.log(galleryImages.length)
+    typeLabel.style.fontWeight = 'bold';
+
+    const typeDisplayContainer = document.getElementById('typeDisplayContainer');
+    typeDisplayContainer.innerHTML = ''; // Clear any previous labels
+    typeDisplayContainer.appendChild(typeLabel);
+
+
+    //Показуємо оновлений localStorage
     showLocalStorage();
-  });
 
 
-  function showLocalStorage() {
+});
+
+
+function showLocalStorage() {
     const lsPhotoes = document.getElementById('ls_photoes');
-    lsPhotoes.innerHTML = '';
-  
+    lsPhotoes.innerHTML = ''; 
+
     const storedImages = JSON.parse(localStorage.getItem('images')) || [];
-  
-    storedImages.forEach((url, index) => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = `Image ${index + 1}`;
-      img.style.maxWidth = "200px";
-      img.style.margin = "5px";
-      lsPhotoes.appendChild(img);
+
+    storedImages.forEach((imageData, index) => {
+        // Перевіряємо дані на валідність 
+        if (imageData && imageData.src && imageData.type) {
+            const img = document.createElement('img');
+            img.src = imageData.src;
+            img.alt = `Image ${index + 1} (${imageData.type})`;
+            img.style.maxWidth = "200px";
+            img.style.margin = "5px";
+
+            const container = document.createElement('div');
+            container.appendChild(img);
+            lsPhotoes.appendChild(container);
+
+        } else {
+            console.error('Помилка із завантаженими фотографіями:', imageData);
+        }
     });
 }
+
+
+document.getElementById('delete-photos').addEventListener('click', function() {
+    localStorage.clear();
+    console.log(window.location)
+    window.location.reload();
+})
+
+
+
+
+
 
 
 
