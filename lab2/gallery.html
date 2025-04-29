@@ -26,11 +26,20 @@
     </header>
 
 
-    <h1 style="text-align: center;"> Тут показуються всі ваші завантажені фотографії </h1>
+    <h1 class="text-3xl font-semibold text-center text-gray-800 my-6">
+        Тут показуються всі ваші завантажені фотографії
+    </h1>
 
     <div class="add-container">
-    <input type="file" id="addImageInput" style="display: none;" multiple>
-    <button class="add-btn" onclick="document.getElementById('addImageInput').click();">Додати зображення</button>
+        <input type="file" id="addImageInput" style="display: none;" multiple>
+        <button class="add-btn" onclick="document.getElementById('addImageInput').click();" >Додати зображення</button>
+        
+        <select id="imageType" class = "select-style">
+            <option value="Портрет">Портрет</option>
+            <option value="Пейзаж">Пейзаж</option>
+            <option value="Макро">Макро</option>
+          </select>      
+
     </div>
 
     <div id="imageGallery" class="image-gallery"></div>
@@ -38,12 +47,32 @@
     <div class="upload-container">
         <button class="upload-btn" id="uploadBtn">Завантажити зображення</button>
       </div>
+
+
+      <div class="flex justify-center mt-6 ">
+        <button  class="px-6 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition duration-300" onclick = showLocalStorage();>
+          Відобразити фотографії
+        </button>
+      </div>
       
 
-    <div id="ls_photoes" class="LS_photoes"></div>
+    <div class = "flex justify-center m-4">
+        <button 
+        class = "rounded-s-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-center"
+        id = "delete-photos" > 
+        Видалити фотографії </button>
+    </div>
 
+
+    <div id="uploadMsg" class="flex justify-center mt-6"></div>
+
+    <div id="filtered_photos" class="flex flex-wrap justify-center gap-4 mt-6"></div>
+
+
+ 
 
     <script src = "scripts.js" defer ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
 </body>
 </html>

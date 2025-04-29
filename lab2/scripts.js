@@ -10,7 +10,6 @@ function scrollToDiv() {
 }
 
 
-//Переміщення між вікнами
 window.onload = function () {
     if (window.location.search.includes("scroll=true")) {
         const element = document.getElementById('main_info');
@@ -60,13 +59,6 @@ window.onload = function () {
 };
 
 
-// Виводимо дані з localStorage на сторінку 
-window.addEventListener('DOMContentLoaded', () => {
-    showLocalStorage();
-  });
-  
-
-
 // Додавання фото на екран без збереження в localStorage
 document.getElementById('addImageInput').addEventListener('change', function (event) {
     const files = event.target.files;
@@ -87,53 +79,110 @@ document.getElementById('addImageInput').addEventListener('change', function (ev
         };
   
         reader.readAsDataURL(file);
-      }
     }
-  });
+}
+});
   
   
-  document.getElementById('uploadBtn').addEventListener('click', function () {
+document.getElementById('uploadBtn').addEventListener('click', function () {
     const imageGallery = document.getElementById('imageGallery');
     const galleryImages = imageGallery.getElementsByTagName('img');
-  
+    const imgType = document.getElementById('imageType').value;
+
     if (galleryImages.length === 0) {
-      alert('Немає зображень для завантаження!');
-      return;
+        alert('Немає зображень для завантаження!');
+        return;
     }
-  
+
     let storedImages = JSON.parse(localStorage.getItem('images')) || [];
-  
-    // Переносимо кожне зображення в localStorage
+
+    const init_size = galleryImages.length;
     while (galleryImages.length > 0) {
-      const img = galleryImages[0];
-      storedImages.push(img.src);
-      img.remove();
+        const img = galleryImages[0];
+        storedImages.push({
+            src: img.src,
+            type: imgType,
+            width: img.naturalWidth,
+            height: img.naturalHeight
+          });
+          
+        img.remove();
     }
-  
-    // Оновлюємо localStorage
+
     localStorage.setItem('images', JSON.stringify(storedImages));
-  
-    // Показуємо оновлений localStorage
-    showLocalStorage();
-  });
 
+    const uploadMsg = document.getElementById('uploadMsg');
+    uploadMsg.innerHTML = ''; 
 
-  function showLocalStorage() {
-    const lsPhotoes = document.getElementById('ls_photoes');
+    const labelContent = document.createElement('span');
+    labelContent.className = "px-6 py-2 bg-green-100 text-green-800 rounded-lg shadow text-center";
+    labelContent.textContent = init_size > 1 
+        ? `Тип доданих вами фотографій: ${imgType}` 
+        : `Тип доданої вами фотографії: ${imgType}`;
+
+    uploadMsg.appendChild(labelContent);
+
+});
+
+function showLocalStorage() {
+    const lsPhotoes = document.getElementById('filtered_photos');
     lsPhotoes.innerHTML = '';
-  
+
     const storedImages = JSON.parse(localStorage.getItem('images')) || [];
-  
-    storedImages.forEach((url, index) => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = `Image ${index + 1}`;
-      img.style.maxWidth = "200px";
-      img.style.margin = "5px";
-      lsPhotoes.appendChild(img);
+
+    const groupedImages = {};
+
+
+    if (storedImages.length === 0) {
+        return 0;
+    }
+
+    storedImages.forEach((imageData) => {
+        if (imageData && imageData.src && imageData.type) {
+            if (!groupedImages[imageData.type]) {
+                groupedImages[imageData.type] = [];
+            }
+            groupedImages[imageData.type].push(imageData.src);
+        } else {
+            console.error('Помилка із завантаженими фотографіями:', imageData);
+        }
     });
+
+    document.getElementById('filtered_photos').className = "w-5/6 flex flex-wrap justify-center gap-4 mt-6 p-6 bg-white rounded-xl shadow-lg border border-gray-200 mx-auto"
+    for (const type in groupedImages) {
+        const typeBlock = document.createElement('div');
+        typeBlock.className = 'w-full max-w-7xl mx-auto mt-12 p-6 bg-white rounded-xl shadow-xl border border-gray-200';
+    
+        const typeTitle = document.createElement('h2');
+        typeTitle.textContent = type;
+        typeTitle.className = 'text-4xl font-extrabold text-center text-blue-700 mb-8 decoration-blue-400';
+        typeBlock.appendChild(typeTitle);
+    
+        const typeContainer = document.createElement('div');
+        typeContainer.className = 'flex flex-wrap justify-center gap-6';
+    
+        groupedImages[type].forEach(src => {
+            const imgWrapper = document.createElement('div');
+            imgWrapper.className = 'inline-flex justify-center items-center transform scale-75 origin-top rounded-xl shadow-lg hover:shadow-2xl transition-transform duration-300';
+    
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = type;
+            img.className = 'h-auto w-auto max-w-none rounded-lg shadow-md';
+    
+            imgWrapper.appendChild(img);
+            typeContainer.appendChild(imgWrapper);
+        });
+        typeBlock.appendChild(typeContainer);
+        lsPhotoes.appendChild(typeBlock);
+    }
 }
 
 
-
-
+document.getElementById('delete-photos').addEventListener('click', function() {
+    if (localStorage.length === 0) {return}
+    localStorage.clear();
+    console.log(window.location);
+    document.getElementById("filtered_photos").className = "flex flex-wrap justify-center gap-4 mt-6"
+    window.location.reload();
+})
