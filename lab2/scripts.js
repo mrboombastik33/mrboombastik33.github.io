@@ -97,15 +97,27 @@ document.getElementById('uploadBtn').addEventListener('click', function () {
     let storedImages = JSON.parse(localStorage.getItem('images')) || [];
 
     const init_size = galleryImages.length;
+    
     while (galleryImages.length > 0) {
         const img = galleryImages[0];
+
+        const canvas = document.createElement('canvas');
+        const scale = 0.5; 
+        canvas.width = img.naturalWidth * scale;
+        canvas.height = img.naturalHeight * scale;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const resizedDataURL = canvas.toDataURL('image/jpeg', 0.8); 
+
         storedImages.push({
-            src: img.src,
+            src: resizedDataURL,
             type: imgType,
-            width: img.naturalWidth,
-            height: img.naturalHeight
-          });
-          
+            width: canvas.width,
+            height: canvas.height
+        });
+
         img.remove();
     }
 
@@ -129,52 +141,76 @@ function showLocalStorage() {
     lsPhotoes.innerHTML = '';
 
     const storedImages = JSON.parse(localStorage.getItem('images')) || [];
-
     const groupedImages = {};
-
+    const selectedType = document.getElementById('filterType').value;
 
     if (storedImages.length === 0) {
         return 0;
     }
 
-    storedImages.forEach((imageData) => {
+    let i = 0;
+    while (i < storedImages.length) {
+        const imageData = storedImages[i];
         if (imageData && imageData.src && imageData.type) {
-            if (!groupedImages[imageData.type]) {
-                groupedImages[imageData.type] = [];
+            if (selectedType === 'all' || imageData.type === selectedType) {
+                if (!groupedImages[imageData.type]) {
+                    groupedImages[imageData.type] = [];
+                }
+                groupedImages[imageData.type].push(imageData.src);
             }
-            groupedImages[imageData.type].push(imageData.src);
         } else {
             console.error('Помилка із завантаженими фотографіями:', imageData);
         }
-    });
+        i++;
+    }
 
-    document.getElementById('filtered_photos').className = "w-5/6 flex flex-wrap justify-center gap-4 mt-6 p-6 bg-white rounded-xl shadow-lg border border-gray-200 mx-auto"
-    for (const type in groupedImages) {
+    document.getElementById('filtered_photos').className = "w-5/6 flex flex-wrap justify-center gap-4 mt-6 p-6 bg-white rounded-xl shadow-lg border border-gray-200 mx-auto";
+
+    const types = Object.keys(groupedImages);
+    if (types.length === 0) {
+        const noImagesMsg = document.createElement('div');
+        noImagesMsg.className = 'text-center text-gray-600 text-xl mt-8';
+        noImagesMsg.textContent = 'Немає фотографій обраного типу';
+        lsPhotoes.appendChild(noImagesMsg);
+        return;
+    }
+
+    let j = 0;
+    while (j < types.length) {
+        const type = types[j];
         const typeBlock = document.createElement('div');
         typeBlock.className = 'w-full max-w-7xl mx-auto mt-12 p-6 bg-white rounded-xl shadow-xl border border-gray-200';
-    
+
         const typeTitle = document.createElement('h2');
         typeTitle.textContent = type;
         typeTitle.className = 'text-4xl font-extrabold text-center text-blue-700 mb-8 decoration-blue-400';
         typeBlock.appendChild(typeTitle);
-    
+
         const typeContainer = document.createElement('div');
         typeContainer.className = 'flex flex-wrap justify-center gap-6';
-    
-        groupedImages[type].forEach(src => {
+
+        let k = 0;
+        const typeImages = groupedImages[type];
+        while (k < typeImages.length) {
+            const src = typeImages[k];
+
             const imgWrapper = document.createElement('div');
             imgWrapper.className = 'inline-flex justify-center items-center transform scale-75 origin-top rounded-xl shadow-lg hover:shadow-2xl transition-transform duration-300';
-    
+
             const img = document.createElement('img');
             img.src = src;
             img.alt = type;
             img.className = 'h-auto w-auto max-w-none rounded-lg shadow-md';
-    
+
             imgWrapper.appendChild(img);
             typeContainer.appendChild(imgWrapper);
-        });
+
+            k++;
+        }
+
         typeBlock.appendChild(typeContainer);
         lsPhotoes.appendChild(typeBlock);
+        j++;
     }
 }
 

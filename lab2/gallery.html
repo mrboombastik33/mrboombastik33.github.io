@@ -26,50 +26,66 @@
     </header>
 
 
-    <h1 class="text-3xl font-semibold text-center text-gray-800 my-6">
+    <h1 class="text-3xl font-semibold text-center text-gray-800 my-12">
         Тут показуються всі ваші завантажені фотографії
     </h1>
 
-    <div class="add-container">
-        <input type="file" id="addImageInput" style="display: none;" multiple>
-        <button class="add-btn" onclick="document.getElementById('addImageInput').click();" >Додати зображення</button>
-        
-        <select id="imageType" class = "select-style">
-            <option value="Портрет">Портрет</option>
-            <option value="Пейзаж">Пейзаж</option>
-            <option value="Макро">Макро</option>
-          </select>      
-
+    <div class="max-w-xl mx-auto bg-white/50 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-gray-100">
+        <h2 class="text-lg font-medium text-gray-600 mb-6 text-center tracking-wide">Завантаження фотографій</h2>
+        <div class="flex flex-col items-center gap-6">
+            <div class="flex gap-3">
+                <input type="file" id="addImageInput" style="display: none;" multiple>
+                <button class="px-5 py-2 bg-gray-900/90 text-white font-medium rounded-xl hover:bg-gray-800 transition-all duration-200 hover:scale-105" onclick="document.getElementById('addImageInput').click();">
+                    Додати зображення
+                </button>
+                <button class="px-5 py-2 bg-gray-900/90 text-white font-medium rounded-xl hover:bg-gray-800 transition-all duration-200 hover:scale-105" id="uploadBtn">
+                    Завантажити
+                </button>
+            </div>
+            <div class="w-full max-w-xs">
+                <label for="imageType" class="block text-sm font-medium text-gray-500 mb-2 tracking-wide">Тип фотографії</label>
+                <select id="imageType" class="w-full px-4 py-2 bg-white/80 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-gray-400">
+                    <option value="Портрет">Портрет</option>
+                    <option value="Пейзаж">Пейзаж</option>
+                    <option value="Макро">Макро</option>
+                </select>
+            </div>
+        </div>
     </div>
 
-    <div id="imageGallery" class="image-gallery"></div>
+    <div id="imageGallery" class="image-gallery mb-12"></div>
 
-    <div class="upload-container">
-        <button class="upload-btn" id="uploadBtn">Завантажити зображення</button>
-      </div>
-
-
-      <div class="flex justify-center mt-6 ">
-        <button  class="px-6 py-2 bg-orange-600 text-white font-medium rounded-lg shadow-md hover:bg-orange-700 transition duration-300" onclick = showLocalStorage();>
-          Відобразити фотографії
-        </button>
-      </div>
-      
-
-    <div class = "flex justify-center m-4">
-        <button 
-        class = "rounded-s-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-center"
-        id = "delete-photos" > 
-        Видалити фотографії </button>
+    <div class="max-w-xl mx-auto bg-white/50 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-gray-100">
+        <h2 class="text-lg font-medium text-gray-600 mb-6 text-center tracking-wide">Перегляд фотографій</h2>
+        <div class="flex flex-col items-center gap-6">
+            <div class="w-full max-w-xs">
+                <label for="filterType" class="block text-sm font-medium text-gray-500 mb-2 tracking-wide">Фільтр за типом</label>
+                <select id="filterType" class="w-full px-4 py-2 bg-white/80 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-gray-400">
+                    <option value="all">Всі фотографії</option>
+                    <option value="Портрет">Портрет</option>
+                    <option value="Пейзаж">Пейзаж</option>
+                    <option value="Макро">Макро</option>
+                </select>
+            </div>
+            <button class="px-5 py-2 bg-gray-900/90 text-white font-medium rounded-xl hover:bg-gray-800 transition-all duration-200 hover:scale-105" onclick="showLocalStorage();">
+                Відобразити фотографії
+            </button>
+        </div>
     </div>
 
+    <!-- Delete Group -->
+    <div class="max-w-xl mx-auto bg-white/50 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-gray-100">
+        <h2 class="text-lg font-medium text-gray-600 mb-6 text-center tracking-wide">Управління галереєю</h2>
+        <div class="flex justify-center">
+            <button class="px-5 py-2 bg-red-500/90 text-white font-medium rounded-xl hover:bg-red-600 transition-all duration-200 hover:scale-105" id="delete-photos">
+                Видалити всі фотографії
+            </button>
+        </div>
+    </div>
 
     <div id="uploadMsg" class="flex justify-center mt-6"></div>
 
     <div id="filtered_photos" class="flex flex-wrap justify-center gap-4 mt-6"></div>
-
-
- 
 
     <script src = "scripts.js" defer ></script>
     <script src="https://cdn.tailwindcss.com"></script>
