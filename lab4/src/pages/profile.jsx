@@ -377,9 +377,8 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Статистика */}
+
           <div className="space-y-6">
-            {/* Основна статистика */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Статистика</h3>
               

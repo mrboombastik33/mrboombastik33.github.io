@@ -1,20 +1,46 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 export default function StillLifeLesson() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <h1 className="mt-8 text-center text-3xl md:text-4xl font-bold">
-        Фотографія продуктів та їжі
-      </h1>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-4xl mx-auto">
+        <Link 
+          to="/lessons"
+          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
+        >
+          ← Назад до уроків
+        </Link>
 
-      <div className="max-w-5xl mx-auto mt-8 px-4">
-        <div className="relative pb-[56.25%] overflow-hidden rounded-lg shadow-lg">
-          <iframe
-            className="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/tgymaO3ZEXc?si=YEe-OKA0yZcPrRTj"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
+        <h1 className="text-3xl font-bold mb-6">
+          Натюрморт
+        </h1>
+
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="w-full mb-6">
+            <iframe
+              className="w-full rounded-lg"
+              style={{ minHeight: 250, height: 450, maxHeight: 600 }}
+              src="https://www.youtube.com/embed/tgymaO3ZEXc"
+              title="Натюрморт"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+
+          <div className="prose max-w-none">
+            <h2 className="text-2xl font-bold mb-4">Опис уроку</h2>
+            <p className="text-gray-700 mb-4">
+              У цьому уроці ви дізнаєтесь про мистецтво натюрморту:
+            </p>
+            <ul className="list-disc list-inside mb-4">
+              <li>Композиція натюрморту</li>
+              <li>Робота зі штучним освітленням</li>
+              <li>Вибір предметів та їх розташування</li>
+              <li>Техніки зйомки натюрморту</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

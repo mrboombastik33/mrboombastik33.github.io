@@ -67,7 +67,54 @@ body {
   cursor: pointer;
 }
 
+.user-profile-link {
+  text-decoration: none;
+  color: inherit;
+}
 
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 15px;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease;
+}
+
+.user-profile:hover {
+  background-color: #e0e0e0;
+}
+
+.profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-pic-placeholder {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #8a2be2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 @media (max-width: 768px) {
     .header {
@@ -115,6 +162,14 @@ body {
     .content a {
         font-size: 1rem;
         padding: 10px 20px;
+    }
+
+    .user-profile {
+        padding: 5px 10px;
+    }
+    
+    .user-name {
+        max-width: 100px;
     }
 }
 
