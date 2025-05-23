@@ -11,7 +11,8 @@ import {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import {
   ref,
@@ -31,6 +32,7 @@ export default function Auth() {
   const [isRegister, setIsRegister] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [resetMsg, setResetMsg] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -149,6 +151,22 @@ export default function Auth() {
     }
   };
 
+  const handleResetPassword = async () => {
+    setResetMsg("");
+    if (!email) {
+      setResetMsg("Введіть email для скидання пароля.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetMsg("Інструкції для скидання пароля надіслано на email.");
+    } catch (err) {
+      setResetMsg("Помилка: " + err.message);
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-2xl shadow-md w-full max-w-sm space-y-4">
@@ -237,6 +255,16 @@ export default function Auth() {
                 ? 'Вже маєте акаунт? Увійти'
                 : 'Немає акаунта? Зареєструватися'}
             </button>
+            <button
+              onClick={handleResetPassword}
+              className="w-full bg-yellow-400 text-white py-2 rounded-lg hover:bg-yellow-500 transition mt-2"
+              disabled={loading}
+            >
+              Скинути пароль
+            </button>
+            {resetMsg && (
+              <div className="text-center text-sm mt-2 text-gray-700">{resetMsg}</div>
+            )}
           </>
         )}
       </div>
