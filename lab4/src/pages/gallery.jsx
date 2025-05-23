@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/styles.css";
-
+import { auth } from "../firebase/config";
+import { onAuthStateChanged } from "firebase/auth";
 
 // Зменшує <img> у 2 рази та повертає dataURL
 function resizeImage(img, quality = 0.8, scale = 0.5) {
@@ -12,19 +13,21 @@ function resizeImage(img, quality = 0.8, scale = 0.5) {
   return canvas.toDataURL("image/jpeg", quality);
 }
 
-
-
 function Gallery_Page() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const [preview, setPreview] = useState([]); // [{url, file}]
-
-
   const [imgType, setImgType] = useState("Портрет");
-
-
   const [filterType, setFilterType] = useState("all");
-
-
   const [stored, setStored] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem("images")) || [];
@@ -32,7 +35,6 @@ function Gallery_Page() {
       return [];
     }
   });
-
 
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files);
@@ -43,7 +45,6 @@ function Gallery_Page() {
     setPreview((prev) => [...prev, ...mapped]);
     e.target.value = "";
   };
-
 
   const uploadImages = () => {
     if (preview.length === 0) {
@@ -69,7 +70,7 @@ function Gallery_Page() {
           setStored(next);
           setPreview([]);
           const uploadMsg = document.getElementById("uploadMsg");
-          uploadMsg.textContent = `Додано ${preview.length} фото типу «${imgType}»`;
+          if (uploadMsg) uploadMsg.textContent = `Додано ${preview.length} фото типу «${imgType}»`;
         }
       };
     });
@@ -87,6 +88,15 @@ function Gallery_Page() {
     acc[img.type].push(img);
     return acc;
   }, {});
+
+  if (loading) return <div>Завантаження...</div>;
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl">Будь ласка, увійдіть в систему для перегляду та завантаження фотографій</p>
+      </div>
+    );
+  }
 
   return (
     <>
