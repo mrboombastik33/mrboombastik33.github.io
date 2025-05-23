@@ -32,7 +32,7 @@ export default function Page_Header() {
         </nav> 
 
         <div className="actions">
-          <button className="btn">Акаунт</button>
+          <Link to = "/account"><button className="btn">Акаунт</button></Link>
         </div>
       </div>
     </header>

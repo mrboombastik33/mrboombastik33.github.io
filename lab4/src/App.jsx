@@ -6,6 +6,7 @@ import {BrowserRouter , Routes, Route} from 'react-router-dom'
 import Gallery_Page from './pages/gallery'
 import ProgressPage from './pages/progress'
 import Lessons_Page from './pages/lesson_page'
+import Auth from './pages/account'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path = "/gallery" element = {<Gallery_Page/>} />
         <Route path = "/progress" element = {<ProgressPage/>}/>
         <Route path = "lessons/*" element = {<Lessons_Page/>}/>
+        <Route path = "/account" element = {<Auth/>} />
       </Routes>
       <Footer/>
   </BrowserRouter>
